@@ -39,7 +39,7 @@ C flag the invalid misfit to -1e10.
 
 C read in model-data misfit and use it 
 C for data cost calculation (useful for multi-grid approach)
-#undef READIN_MISFIT_FOR_COST_CALC
+# define READIN_MISFIT_FOR_COST_CALC
 
 C include global mean steric sea level correction
 #define ALLOW_PSBAR_STERIC

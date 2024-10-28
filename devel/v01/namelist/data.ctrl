@@ -79,7 +79,7 @@
  xx_genarr2d_weight(1) = 'SSH_weights_nonseasonal_rms_llc270_areascaled.bin',
  xx_genarr2d_file(1)='xx_etan',
  xx_genarr2d_bounds(1:5,1)=-9.0,-8.9,8.9,9.0,0.,
- xx_genarr2d_preproc(1,1)='WC01',
+ xx_genarr2d_preproc(1,1)='noscaling',
  xx_genarr2d_preproc_i(1,1)=1,
  mult_genarr2d(1) = 0.,
 #

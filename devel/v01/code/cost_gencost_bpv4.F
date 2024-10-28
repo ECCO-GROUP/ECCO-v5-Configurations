@@ -48,6 +48,10 @@ c     == local variables ==
       integer irec
       integer il
 
+      _RL spMinLoc
+      _RL spMaxLoc
+      _RL spZeroLoc
+
       logical doglobalread
       logical ladinit
 
@@ -93,6 +97,9 @@ c     == end of interface ==
       enddo
 
       if (kgen.GT.0) then
+       spMinLoc=gencost_spmin(kgen)
+       spMaxLoc=gencost_spmax(kgen)
+       spZeroLoc=gencost_spzero(kgen)
 
        dosumsq=.TRUE.
        call ecco_zero( gencost_weight(1-OLx,1-OLy,1,1,kgen),
@@ -169,12 +176,18 @@ c--     Compute the mean over all bpdat records.
          do bi = itlo,ithi
            do j = 1,sNy
             do i = 1,sNx
+#ifdef READIN_MISFIT_FOR_COST_CALC
+              if ( (locbpmask(i,j,bi,bj).NE. 0. _d 0).AND.
+     &              locbpbar(i,j,bi,bj) .GE. spMinLoc  .AND.
+     &              locbpbar(i,j,bi,bj) .LE. spMaxLoc  .AND.
+     &              locbpbar(i,j,bi,bj) .NE. spZeroLoc .AND.
+     &             (maskc(i,j,1,bi,bj).NE. 0. _d 0) ) then
+                bpdifmean(i,j,bi,bj) = bpdifmean(i,j,bi,bj) +
+     &              ( fac*locbpbar(i,j,bi,bj) )
+#else
               if ( (locbpmask(i,j,bi,bj).NE. 0. _d 0).AND.
      &             (maskc(i,j,1,bi,bj).NE. 0. _d 0) ) then
                 bpdifmean(i,j,bi,bj) = bpdifmean(i,j,bi,bj) +
-#ifdef READIN_MISFIT_FOR_COST_CALC
-     &              ( fac*locbpbar(i,j,bi,bj) )
-#else
      &              ( fac*locbpbar(i,j,bi,bj) - locbpdat(i,j,bi,bj) )
 #endif
                 bpdatmean(i,j,bi,bj) = bpdatmean(i,j,bi,bj) +
@@ -232,12 +245,18 @@ c--    Compute field of anomalies
          do bi = itlo,ithi
            do j = 1,sNy
             do i = 1,sNx
+#ifdef READIN_MISFIT_FOR_COST_CALC
+              if ( (locbpmask(i,j,bi,bj).NE. 0. _d 0).AND.
+     &              locbpbar(i,j,bi,bj) .GE. spMinLoc  .AND.
+     &              locbpbar(i,j,bi,bj) .LE. spMaxLoc  .AND.
+     &              locbpbar(i,j,bi,bj) .NE. spZeroLoc .AND.
+     &             (maskc(i,j,1,bi,bj).NE. 0. _d 0) ) then
+                bpdifanom(i,j,bi,bj) =
+     &              ( fac*locbpbar(i,j,bi,bj) )
+#else
               if ( (locbpmask(i,j,bi,bj).NE. 0. _d 0).AND.
      &             (maskc(i,j,1,bi,bj).NE. 0. _d 0) ) then
                 bpdifanom(i,j,bi,bj) =
-#ifdef READIN_MISFIT_FOR_COST_CALC
-     &              ( fac*locbpbar(i,j,bi,bj) )
-#else
      &              ( fac*locbpbar(i,j,bi,bj) - locbpdat(i,j,bi,bj) )
 #endif
      &              - bpdifmean(i,j,bi,bj)

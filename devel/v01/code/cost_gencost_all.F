@@ -49,8 +49,7 @@ c     == end of interface ==
 #ifdef READIN_MISFIT_FOR_COST_CALC
          if ( (using_gencost(k)).AND.
      &        ( ( gencost_flag(k).EQ.1 ).OR.
-     &          ( gencost_flag(k).EQ.2 ).OR.
-     &          ( gencost_flag(k).EQ.-1 ) )
+     &          ( gencost_flag(k).EQ.2 ) )
 #else
          if ( (using_gencost(k)).AND.( gencost_flag(k).EQ.1 )
 #endif
@@ -74,14 +73,6 @@ c     == end of interface ==
 
          nrecloc= gencost_nrec(k)
          nrecperiodloc= gencost_nrec(k)
-#ifdef READIN_MISFIT_FOR_COST_CALC
-C if reading in misfit, the misfit for sshv4-lsc has 34 fewer 
-C time records than normal daily cost.
-         if ( gencost_name(k)(1:9) .EQ. 'sshv4-lsc' ) then
-           nrecloc= gencost_nrec(k) - (35-1)
-           nrecperiodloc= gencost_nrec(k) - (35-1)
-         endif
-#endif
 
          if(gencost_name(k)(1:8).eq.'shifwflx')then
          call cost_generic(
@@ -119,12 +110,12 @@ C time records than normal daily cost.
 
       call cost_gencost_glbmean( mythid )
 C     call cost_gencost_boxmean( mythid )
-#ifndef READIN_MISFIT_FOR_COST_CALC
       call cost_gencost_bpv4( mythid )
       call cost_gencost_moc( mythid )
       IF (using_cost_transp) call cost_gencost_transp( mythid )
       IF (using_cost_altim) call cost_gencost_sshv4( mythid )
       IF (using_cost_sst) call cost_gencost_sstv4( mythid )
+#ifndef READIN_MISFIT_FOR_COST_CALC
       IF (using_cost_seaice) call cost_gencost_seaicev4( mythid )
 #endif
 

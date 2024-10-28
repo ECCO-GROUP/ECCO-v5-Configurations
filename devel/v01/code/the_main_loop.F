@@ -306,18 +306,8 @@ CADJ  INIT tapelvi3 = USER,'adi'
 C     this needs to happen before any store directive to taplev_init
       CALL AUTODIFF_WHTAPEIO_SYNC( 1 , 0, myThid )
 # endif
-# ifdef NONLIN_FRSURF
-CADJ STORE hFacC       = tapelev_init, key = 1
-CADJ STORE recip_hFacC = tapelev_init, key = 1
-# endif
 # ifdef ALLOW_GENTIM2D_CONTROL
 CADJ STORE xx_gentim2d_dummy = dummytape, key = 1 , kind = isbyte
-# endif
-# if (defined ALLOW_SHELFICE) && (defined ALLOW_GENARR2D_CONTROL)
-CADJ STORE shelficeFreshwaterFlux = tapelev_init, key=1
-CADJ STORE shelficeHeatFlux       = tapelev_init, key=1
-CADJ STORE shiTransCoeffT         = tapelev_init, key=1
-CADJ STORE shiTransCoeffS         = tapelev_init, key=1
 # endif
 # if (defined ALLOW_STREAMICE) && (defined ALLOW_GENARR2D_CONTROL)
 CADJ STORE H_streamice = tapelev_init, key=1
@@ -381,6 +371,7 @@ C--   Set initial conditions (variable arrays)
       CALL TIMER_START('INITIALISE_VARIA    [THE_MAIN_LOOP]', myThid)
       CALL INITIALISE_VARIA( myThid )
       CALL TIMER_STOP ('INITIALISE_VARIA    [THE_MAIN_LOOP]', myThid)
+
 #ifdef ALLOW_AUTODIFF_TAMC
 # ifdef ALLOW_ECCO
 #  ifdef ECCO_CTRL_DEPRECATED
@@ -656,7 +647,11 @@ C--   Reset the model iteration counter and the model time.
       myIter = nIter0 + (iloop-1)
       myTime = startTime + deltaTClock*(iloop-1)
 # ifdef ALLOW_AUTODIFF_TAMC
+#  ifdef ALLOW_TAMC_CHECKPOINTING
       ikey_dynamics = ilev_1
+#  else
+      ikey_dynamics = iloop
+#  endif
 # endif
 #endif
 

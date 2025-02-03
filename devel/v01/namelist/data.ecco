@@ -173,7 +173,7 @@
  gencost_posproc_c(1,15)='sshv4_scale_3points_llc270.bin', 
  gencost_posproc_i(1,15)=1000,
  gencost_outputlevel(15)=1,
- mult_gencost(15) = 0.001,
+ mult_gencost(15) = 0.05,
 #
  gencost_name(16) = 'sshv4-gmsl',
  gencost_outputlevel(16)=1,
@@ -193,7 +193,7 @@
   gencost_preproc_i(1,17)=12,
   gencost_preproc(2,17)='anom',
   gencost_outputlevel(17)=1,
-  mult_gencost(17) = 1.,
+  mult_gencost(17) = 0.5,
 #
   gencost_avgperiod(18)  = 'month',
   gencost_barfile(18) = 'm_saltmon',
@@ -209,7 +209,7 @@
   gencost_preproc_i(1,18)=12,
   gencost_preproc(2,18)='anom',
   gencost_outputlevel(18)=1,
-  mult_gencost(18) = 1.,
+  mult_gencost(18) = 0.5,
 #
   gencost_avgperiod(19)  = 'month',
   gencost_barfile(19) = 'm_sssmon',

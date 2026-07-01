@@ -239,7 +239,7 @@
 
   gencost_avgperiod(21)  = 'month',
   gencost_barfile(21) = 'm_bp_nopabarmon',
-  gencost_datafile(21) = 'GMBP_JPL_Mascons_ocean_mass_200204_202501.txt.appended_minus999',
+  gencost_datafile(21) = 'GMBP_JPL_Mascons_ocean_mass_200204_202501.txt',
   gencost_name(21) = 'gmbp',
   gencost_wei1d(21) = 0.1989,
   gencost_spmin(21) = -990.,
@@ -251,7 +251,7 @@
 #
   gencost_avgperiod(22)  = 'month',
   gencost_barfile(22) = 'm_eta_dynmon',
-  gencost_datafile(22) = 'GMSL_TPJAOS_5.2_202001_GIAapplied_meter_60d_smoothed_v4_199201_present.ascii.appended_minus999',
+  gencost_datafile(22) = 'GMSL_TPJAOS_5.2_202001_GIAapplied_meter_60d_smoothed_v4_199201_present.ascii',
   gencost_name(22) = 'gmsl',
   gencost_wei1d(22) = 0.00382,
   gencost_spmin(22) = -990.,

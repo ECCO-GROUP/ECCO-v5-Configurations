@@ -92,8 +92,11 @@
 #endtime=63072000,
 #1/1/2018, 0Z thru 12/31/2024, 12Z
 #endtime=220881600.
-#1/1/1992, 0Z thru 12/31/2024, 12Z
- endtime=1041422400,
+##1/1/1992, 0Z thru 12/31/2024, 12Z
+# endtime=1041422400,
+#1/1/1992, 0Z thru 12/31/2025, 12Z
+ endtime=1072958400,
+
  forcing_In_AB=.FALSE.,
  momDissip_In_AB=.FALSE.,
 #when using the cd scheme:

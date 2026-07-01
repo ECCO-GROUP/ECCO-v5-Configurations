@@ -36,8 +36,6 @@
  vwindfile         = 'MOI_270_vwind_6hourly',
  swdownfile        = 'MOI_270_dsw_6hourly',
  lwdownfile        = 'MOI_270_dlw_6hourly',
- apressurefile     = 'SLP_merra2tollc270',
-
 #
  atempstartdate1   = 19920101,
  atempstartdate2   = 000000,
@@ -70,10 +68,6 @@
  lwdownstartdate2  = 030000,
  lwdownperiod      = 21600.0,
 #
- apressurestartdate1   = 19920101,
- apressurestartdate2   = 000000,
- apressureperiod       = 3600.0,
-#
  /
 #
  &EXF_NML_03
@@ -99,7 +93,6 @@
  wspeed_interpMethod = 0,
  swdown_interpMethod = 0,
  lwdown_interpMethod = 0,
- apressure_interpMethod = 0,
 #
  atemp_lon0        =   0.0000000D0,
  atemp_lon_inc     =   0.7031250D0,

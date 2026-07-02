@@ -1,0 +1,105 @@
+2026-06-29
+
+Instructions on how to reproduce ECCO Version 5 Release 1 (V5r1) 
+
+1. Get the code 
+mkdir WORKINGDIR
+cd WORKINGDIR
+
+git clone https://github.com/MITgcm/MITgcm.git -b checkpoint68g
+
+cd MITgcm
+mkdir -p ECCOV5/release1
+cd ECCOV5/release1
+git clone https://github.com/ECCO-GROUP/ECCO-v5-Configurations.git
+mv ECCO-v5-Configurations/ECCOv5\ Release\ 1/code .
+mv ECCO-v5-Configurations/ECCOv5\ Release\ 1/namelist .
+rm -rf ECCO-v4-Configurations
+
+2. Compile
+module purge
+module load comp-intel/2020.4.304
+module load mpi-hpe/mpt
+module load hdf4/4.2.12
+module load hdf5/1.8.18_mpt
+module load netcdf/4.4.1.1_mpt
+module list
+
+mkdir build
+cd build
+../../../tools/genmake2 -mods=../code -optfile=../code/linux_amd64_ifort+mpi_ice_nas.20220310 -mpi
+make depend
+make all
+cd ..
+
+3. Run
+Put the following to a file, e.g., run_script.csh and qsub run_script.csh
+
+#PBS -S /bin/csh
+#PBS -l select=3:ncpus=40:model=sky_ele
+#PBS -l walltime=48:00:00
+#PBS -j oe
+#PBS -o ./
+#PBS -m bea
+
+limit stacksize unlimited
+module purge
+module load comp-intel/2020.4.304
+module load mpi-hpe/mpt
+module load hdf4/4.2.12
+module load hdf5/1.8.18_mpt
+module load netcdf/4.4.1.1_mpt
+module load python3/3.9.12
+module list
+
+setenv FORT_BUFFERED 1
+setenv MPI_BUFS_PER_PROC 128
+setenv MPI_DISPLAY_SETTINGS
+setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${HOME}/lib
+unsetenv MPI_IB_RECV_MSGS
+unsetenv MPI_UD_RECV_MSGS
+
+set nprocs  = 767
+set basedir = ./
+set inputdir = /nobackup/owang/runs/V5/V5r1/PO.DAAC/ancillary_data/ancillary_data_orig/
+set rundir = ${basedir}/run
+
+if ( -d ${rundir} ) then
+ echo 'Directory "run" exists.'
+ echo 'Please rename/remove it and re-submit the job.'
+ exit 1
+endif
+
+mkdir ${rundir}
+cd ${rundir}
+
+ln -s ../namelist/* .
+ln -s ${inputdir}/input_init/* .
+ln -s ${inputdir}/misc/tools/mkdir_subdir_diags.py .
+ln -s ${inputdir}/data_constraints/data_error/*/* .
+ln -s ${inputdir}/data_constraints/*/* .
+ln -s ${inputdir}/input_forcing/other/*.bin .
+ln -s ${inputdir}/input_forcing/control_weights/* .
+ln -s ${inputdir}/input_forcing/control_weights/atm_ctrls/* .
+ln -s ${inputdir}/input_forcing/exf/* .
+ln -s ${inputdir}/native_grid_files/tile*.mitgrid .
+
+#unlink data.ctrl
+#cp -p data.ctrl_itXX.inclatmctrl data.ctrl
+#unlink data.exf
+#cp -p data.exf.splitforc data.exf
+
+python mkdir_subdir_diags.py
+cp -p ../build/mitgcmuv .
+mpiexec -np ${nprocs} /u/scicon/tools/bin/mbind.x ./mitgcmuv
+
+
+
+
+
+
+
+
+
+
+

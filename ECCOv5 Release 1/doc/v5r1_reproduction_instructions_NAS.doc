@@ -14,7 +14,7 @@ cd ECCOV5/release1
 git clone https://github.com/ECCO-GROUP/ECCO-v5-Configurations.git
 mv ECCO-v5-Configurations/ECCOv5\ Release\ 1/code .
 mv ECCO-v5-Configurations/ECCOv5\ Release\ 1/namelist .
-rm -rf ECCO-v4-Configurations
+rm -rf ECCO-v5-Configurations
 
 2. Compile
 module purge
@@ -36,8 +36,8 @@ cd ..
 Put the following to a file, e.g., run_script.csh and qsub run_script.csh
 
 #PBS -S /bin/csh
-#PBS -l select=3:ncpus=40:model=sky_ele
-#PBS -l walltime=48:00:00
+#PBS -l select=20:ncpus=40:model=sky_ele
+#PBS -l walltime=120:00:00
 #PBS -j oe
 #PBS -o ./
 #PBS -m bea

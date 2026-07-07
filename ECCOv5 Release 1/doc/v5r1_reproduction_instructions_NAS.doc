@@ -37,7 +37,7 @@ Put the following to a file, e.g., run_script.csh and qsub run_script.csh
 
 #PBS -S /bin/csh
 #PBS -l select=20:ncpus=40:model=sky_ele
-#PBS -l walltime=120:00:00
+#PBS -l walltime=72:00:00
 #PBS -j oe
 #PBS -o ./
 #PBS -m bea
@@ -65,7 +65,7 @@ set inputdir = /nobackup/owang/runs/V5/V5r1/PO.DAAC/ancillary_data/ancillary_dat
 set rundir = ${basedir}/run
 
 if ( -d ${rundir} ) then
- echo 'Directory "run" exists.'
+ echo 'Directory ${rundir} exists.'
  echo 'Please rename/remove it and re-submit the job.'
  exit 1
 endif
